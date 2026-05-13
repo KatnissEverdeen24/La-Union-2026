@@ -1,1328 +1,953 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>La Union & Baguio Adventure • May 15–16, 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --sand: #f5ede0;
-      --warm-white: #fdf8f3;
-      --ocean: #1a6b8a;
-      --deep-ocean: #0d3d52;
-      --coral: #e8624a;
-      --sunset: #f4a453;
-      --dusk: #c96b3b;
-      --pine: #3a6647;
-      --pine-light: #5a8f69;
-      --fog: #8fa3ac;
-      --ink: #1c2b33;
-      --cream: #faf3e8;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--warm-white);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      background: linear-gradient(160deg, var(--deep-ocean) 0%, var(--ocean) 45%, #2e8b6e 75%, #4a9e7a 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      padding: 60px 20px;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-
-    /* wave shapes */
-    .hero-wave {
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      overflow: hidden;
-      line-height: 0;
-    }
-    .hero-wave svg { display: block; width: 100%; height: 80px; }
-
-    .hero-eyebrow {
-      font-family: 'Caveat', cursive;
-      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      color: var(--sunset);
-      letter-spacing: 0.05em;
-      margin-bottom: 16px;
-      animation: fadeUp 0.8s ease both;
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 7vw, 6rem);
-      font-weight: 900;
-      color: #fff;
-      text-align: center;
-      line-height: 1.05;
-      animation: fadeUp 0.9s 0.1s ease both;
-    }
-
-    .hero-title span { color: var(--sunset); font-style: italic; }
-
-    .hero-sub {
-      margin-top: 20px;
-      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-      color: rgba(255,255,255,0.75);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 500;
-      animation: fadeUp 1s 0.2s ease both;
-    }
-
-    .hero-dates {
-      margin-top: 28px;
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeUp 1s 0.3s ease both;
-    }
-
-    .date-pill {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      backdrop-filter: blur(8px);
-      color: #fff;
-      padding: 10px 24px;
-      border-radius: 100px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 110px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      animation: pulse 2s infinite;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
-    }
-
-    /* NAV */
-    .day-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--deep-ocean);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-    }
-
-    .day-nav a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 32px;
-      text-decoration: none;
-      color: rgba(255,255,255,0.6);
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      border-bottom: 3px solid transparent;
-    }
-
-    .day-nav a:hover, .day-nav a.active {
-      color: var(--sunset);
-      border-bottom-color: var(--sunset);
-    }
-
-    /* SECTION */
-    .day-section {
-      padding: 80px 0 60px;
-    }
-
-    .day-section.day2 {
-      background: var(--cream);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: flex-end;
-      gap: 24px;
-      margin-bottom: 60px;
-      flex-wrap: wrap;
-    }
-
-    .day-badge {
-      font-family: 'Playfair Display', serif;
-      font-size: 5rem;
-      font-weight: 900;
-      line-height: 1;
-      color: var(--ocean);
-      opacity: 0.12;
-      user-select: none;
-    }
-
-    .day2 .day-badge { color: var(--pine); }
-
-    .section-title-block { flex: 1; }
-
-    .section-kicker {
-      font-family: 'Caveat', cursive;
-      font-size: 1.2rem;
-      color: var(--coral);
-      margin-bottom: 4px;
-    }
-
-    .day2 .section-kicker { color: var(--pine); }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 700;
-      line-height: 1.1;
-      color: var(--ink);
-    }
-
-    .section-subtitle {
-      margin-top: 6px;
-      color: var(--fog);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* ROUTE BTN */
-    .route-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--coral);
-      color: #fff;
-      text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      transition: all 0.25s;
-      white-space: nowrap;
-    }
-
-    .route-btn:hover {
-      background: var(--dusk);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(232,98,74,0.3);
-    }
-
-    .day2 .route-btn { background: var(--pine); }
-    .day2 .route-btn:hover { background: #2a4f37; box-shadow: 0 8px 20px rgba(58,102,71,0.3); }
-
-    /* TIMELINE */
-    .timeline {
-      position: relative;
-      padding-left: 40px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 10px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--ocean), transparent);
-    }
-
-    .day2 .timeline::before { background: linear-gradient(to bottom, var(--pine), transparent); }
-
-    .stop {
-      position: relative;
-      margin-bottom: 48px;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .stop:last-child { margin-bottom: 0; }
-
-    .stop-dot {
-      position: absolute;
-      left: -34px;
-      top: 20px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--ocean);
-      border: 3px solid var(--warm-white);
-      box-shadow: 0 0 0 3px var(--ocean);
-    }
-
-    .day2 .stop-dot { background: var(--pine); box-shadow: 0 0 0 3px var(--pine); }
-    .day2.day-section .stop-dot { background: var(--pine); box-shadow: 0 0 0 3px var(--pine); }
-
-    .stop-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      transition: all 0.3s;
-      border: 1px solid rgba(0,0,0,0.04);
-    }
-
-    .stop-card:hover {
-      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-      transform: translateY(-4px);
-    }
-
-    .stop-header {
-      display: flex;
-      align-items: flex-start;
-      padding: 24px 28px;
-      gap: 20px;
-    }
-
-    .stop-time-block {
-      flex-shrink: 0;
-      text-align: center;
-    }
-
-    .stop-time {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--ocean);
-      white-space: nowrap;
-    }
-
-    .day2 .stop-time { color: var(--pine); }
-
-    .stop-icon {
-      display: block;
-      font-size: 1.5rem;
-      margin-top: 4px;
-    }
-
-    .stop-main { flex: 1; }
-
-    .stop-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 4px;
-      line-height: 1.2;
-    }
-
-    .stop-location {
-      font-size: 0.8rem;
-      color: var(--fog);
-      font-weight: 500;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .stop-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      background: var(--sand);
-      color: var(--dusk);
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 100px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .tag.pine { background: #e8f3ec; color: var(--pine); }
-    .tag.ocean { background: #e0f0f7; color: var(--ocean); }
-
-    .stop-map-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--coral);
-      text-decoration: none;
-      padding: 6px 14px;
-      border: 1.5px solid var(--coral);
-      border-radius: 100px;
-      transition: all 0.2s;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-top: 4px;
-    }
-
-    .stop-map-btn:hover {
-      background: var(--coral);
-      color: #fff;
-    }
-
-    .day2 .stop-map-btn { color: var(--pine); border-color: var(--pine); }
-    .day2 .stop-map-btn:hover { background: var(--pine); color: #fff; }
-
-    .stop-body {
-      padding: 0 28px 24px;
-    }
-
-    .stop-desc {
-      font-size: 0.92rem;
-      line-height: 1.7;
-      color: #4a5a65;
-      margin-bottom: 16px;
-    }
-
-    .tips-box {
-      background: linear-gradient(135deg, #fff8f0, #fdf4ea);
-      border-left: 3px solid var(--sunset);
-      border-radius: 0 10px 10px 0;
-      padding: 14px 18px;
-      margin-bottom: 12px;
-    }
-
-    .day2 .tips-box { background: linear-gradient(135deg, #f0f7f2, #eaf4ee); border-left-color: var(--pine); }
-
-    .tips-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--dusk);
-      margin-bottom: 6px;
-    }
-
-    .day2 .tips-title { color: var(--pine); }
-
-    .tips-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .tips-list li {
-      font-size: 0.85rem;
-      color: #4a5a65;
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-    }
-
-    .tips-list li::before {
-      content: '→';
-      color: var(--sunset);
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .day2 .tips-list li::before { color: var(--pine-light); }
-
-    .rating-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      color: var(--fog);
-      margin-top: 8px;
-    }
-
-    .stars { color: #f4a453; letter-spacing: -1px; }
-
-    /* OVERVIEW STRIP */
-    .overview-strip {
-      background: var(--deep-ocean);
-      padding: 60px 0;
-      overflow: hidden;
-    }
-
-    .overview-inner {
-      display: flex;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      padding: 0 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .overview-inner::-webkit-scrollbar { display: none; }
-
-    .overview-stat {
-      flex: 1;
-      min-width: 160px;
-      text-align: center;
-      padding: 0 28px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .overview-stat:last-child { border-right: none; }
-
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--sunset);
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.5);
-      font-weight: 500;
-      margin-top: 4px;
-    }
-
-    /* PACKING */
-    .packing-section {
-      padding: 60px 0;
-      background: var(--ink);
-    }
-
-    .packing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 36px;
-    }
-
-    .pack-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 24px;
-    }
-
-    .pack-icon { font-size: 1.8rem; margin-bottom: 10px; }
-
-    .pack-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .pack-items {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .pack-items li {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.6);
-      padding-left: 14px;
-      position: relative;
-    }
-
-    .pack-items li::before {
-      content: '·';
-      position: absolute;
-      left: 0;
-      color: var(--sunset);
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--deep-ocean);
-      color: rgba(255,255,255,0.4);
-      text-align: center;
-      padding: 30px 20px;
-      font-size: 0.8rem;
-    }
-
-    footer span { color: var(--sunset); }
-
-    /* KEYFRAMES */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 680px) {
-      .timeline { padding-left: 28px; }
-      .stop-header { flex-wrap: wrap; }
-      .day-badge { font-size: 3.5rem; }
-      .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-    }
-
-    /* Overnight special */
-    .overnight-banner {
-      background: linear-gradient(135deg, var(--deep-ocean), var(--ocean));
-      border-radius: 16px;
-      padding: 28px 32px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 48px;
-      flex-wrap: wrap;
-    }
-
-    .overnight-icon { font-size: 2.5rem; }
-
-    .overnight-text h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .overnight-text p { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
-
-    /* Divider text */
-    .section-divider {
-      text-align: center;
-      padding: 20px 0 0;
-      font-family: 'Caveat', cursive;
-      font-size: 1.1rem;
-      color: var(--fog);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Union Road Trip — May 15–16, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean: #1a6b7c;
+    --sand: #f2e8d5;
+    --coral: #e8744a;
+    --dusk: #2c3e50;
+    --foam: #eaf6f8;
+    --gold: #c9a84c;
+    --green: #4a7c59;
+    --night: #0f1f2e;
+    --text: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--night);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0f1f2e 0%, #1a3a4a 40%, #1a6b7c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180'%3E%3Cpath fill='%23f2e8d5' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,106.7C672,85,768,75,864,80C960,85,1056,107,1152,112C1248,117,1344,107,1392,101.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
+  }
+
+  .stars {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 20% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 40% 55%, rgba(255,255,255,0.2) 0%, transparent 100%);
+  }
+
+  .hero-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 130px);
+    line-height: 0.9;
+    color: white;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-title span {
+    display: block;
+    color: var(--gold);
+    font-size: clamp(40px, 7vw, 75px);
+  }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 3vw, 22px);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 30px;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-dates {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-dates .pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ── CONTENT WRAPPER ── */
+  .page {
+    background: var(--sand);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── DAY HEADER ── */
+  .day-header {
+    padding: 70px 20px 30px;
+    text-align: center;
+  }
+
+  .day-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 90px);
+    letter-spacing: 3px;
+    line-height: 1;
+  }
+
+  .day1 .day-label { color: var(--ocean); }
+  .day2 .day-label { color: var(--green); }
+
+  .day-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #888;
+    margin-top: 8px;
+  }
+
+  /* ── ROUTE MAP BUTTON ── */
+  .route-section {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .route-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+
+  .day1 .route-btn {
+    background: var(--ocean);
+    color: white;
+  }
+  .day2 .route-btn {
+    background: var(--green);
+    color: white;
+  }
+
+  .route-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .route-btn svg { width: 18px; height: 18px; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, #ccc 5%, #ccc 95%, transparent);
+    transform: translateX(-50%);
+  }
+
+  .stop {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 48px;
+    align-items: flex-start;
+    position: relative;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .stop:nth-child(odd) { flex-direction: row; }
+  .stop:nth-child(even) { flex-direction: row-reverse; }
+
+  .stop-time {
+    flex: 0 0 calc(50% - 32px);
+    text-align: right;
+    padding-top: 12px;
+  }
+
+  .stop:nth-child(even) .stop-time { text-align: left; }
+
+  .time-badge {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .day1 .time-badge { color: var(--ocean); }
+  .day2 .time-badge { color: var(--green); }
+
+  .time-sub {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-top: 2px;
+  }
+
+  .stop-dot {
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    font-size: 13px;
+  }
+
+  .day1 .stop-dot { background: var(--ocean); color: white; box-shadow: 0 0 0 4px rgba(26,107,124,0.2); }
+  .day2 .stop-dot { background: var(--green); color: white; box-shadow: 0 0 0 4px rgba(74,124,89,0.2); }
+
+  .overnight .stop-dot { background: var(--night); box-shadow: 0 0 0 4px rgba(15,31,46,0.2); }
+  .alert-dot { background: #e74c3c !important; box-shadow: 0 0 0 4px rgba(231,76,60,0.2) !important; }
+
+  .stop-card {
+    flex: 0 0 calc(50% - 32px);
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .stop-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+  }
+
+  .card-accent {
+    height: 5px;
+  }
+
+  .day1 .card-accent { background: linear-gradient(90deg, var(--ocean), var(--coral)); }
+  .day2 .card-accent { background: linear-gradient(90deg, var(--green), var(--gold)); }
+  .night-card .card-accent { background: linear-gradient(90deg, var(--night), var(--ocean)); }
+  .alert-card .card-accent { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+  .card-body { padding: 20px 22px 22px; }
+
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dusk);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #555;
+    margin-bottom: 12px;
+  }
+
+  .card-tips {
+    background: var(--foam);
+    border-left: 3px solid var(--ocean);
+    padding: 10px 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .day2 .card-tips { border-left-color: var(--green); }
+
+  .card-tips strong {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ocean);
+    margin-bottom: 4px;
+  }
+
+  .day2 .card-tips strong { color: var(--green); }
+
+  .alert-box {
+    background: #fff5f5;
+    border-left: 3px solid #e74c3c;
+    padding: 10px 12px;
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+    color: #c0392b;
+    margin-bottom: 12px;
+  }
+
+  .alert-box strong { display: block; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+
+  .maps-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+    margin-top: 4px;
+  }
+
+  .day1 .maps-link { color: var(--ocean); background: var(--foam); }
+  .day2 .maps-link { color: var(--green); background: #f0f7f3; }
+
+  .maps-link:hover { opacity: 0.85; transform: scale(1.02); }
+
+  .maps-link svg { width: 13px; height: 13px; }
+
+  /* ── DIVIDER ── */
+  .day-divider {
+    background: linear-gradient(to right, transparent, var(--dusk), transparent);
+    height: 1px;
+    max-width: 600px;
+    margin: 0 auto 10px;
+    opacity: 0.15;
+  }
+
+  /* ── DAY 2 BG ── */
+  .day2-section {
+    background: #f0f7f3;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--night);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  footer strong { color: var(--gold); }
+
+  /* ── NOTICE BANNER ── */
+  .notice-banner {
+    background: #e74c3c;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .stop:nth-child(1)  { animation-delay: 0.1s; }
+  .stop:nth-child(2)  { animation-delay: 0.2s; }
+  .stop:nth-child(3)  { animation-delay: 0.3s; }
+  .stop:nth-child(4)  { animation-delay: 0.4s; }
+  .stop:nth-child(5)  { animation-delay: 0.5s; }
+  .stop:nth-child(6)  { animation-delay: 0.6s; }
+  .stop:nth-child(7)  { animation-delay: 0.7s; }
+  .stop:nth-child(8)  { animation-delay: 0.8s; }
+  .stop:nth-child(9)  { animation-delay: 0.9s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .timeline::before { left: 16px; }
+
+    .stop, .stop:nth-child(even) {
+      flex-direction: column !important;
+      padding-left: 50px;
+    }
+
+    .stop-time { text-align: left !important; flex: unset; padding-top: 0; }
+    .stop-dot { position: absolute; left: 0; top: 10px; }
+    .stop-card { flex: unset; width: 100%; }
+  }
+</style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <p class="hero-eyebrow">🌊 Road Trip Itinerary</p>
-  <h1 class="hero-title">La Union &amp;<br><span>Baguio</span> Adventure</h1>
-  <p class="hero-sub">Commonwealth, QC → Manaoag → La Union → Baguio → Home</p>
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="stars"></div>
+  <p class="hero-badge">⚓ Road Trip Itinerary</p>
+  <h1 class="hero-title">
+    La Union
+    <span>& Baguio</span>
+  </h1>
+  <p class="hero-sub">From Quezon City to the Surfing Capital of the North</p>
   <div class="hero-dates">
-    <span class="date-pill">📅 May 15, 2026 — Day 1</span>
-    <span class="date-pill">📅 May 16, 2026 — Day 2</span>
+    <span class="pill">🗓 May 15–16, 2026</span>
+    <span class="pill">🚗 Road Trip</span>
+    <span class="pill">🏄 San Juan Beach</span>
+    <span class="pill">🍇 Gapuz Grapes</span>
   </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z" fill="#fdf8f3"/>
-    </svg>
-  </div>
-</section>
+</header>
 
-<!-- NAV -->
-<nav class="day-nav">
-  <a href="#day1">🌊 Day 1 — La Union</a>
-  <a href="#day2">🌿 Day 2 — Baguio</a>
-  <a href="#pack">🎒 Packing List</a>
-</nav>
+<!-- ══════════════════════════════════════
+     DAY 1 — MAY 15
+═══════════════════════════════════════ -->
+<div class="page">
+  <div class="day1">
+    <div class="day-header">
+      <div class="day-label">Day One</div>
+      <p class="day-subtitle">Friday, May 15, 2026 — The Road North</p>
+    </div>
 
-<!-- OVERVIEW STRIP -->
-<div class="overview-strip">
-  <div class="overview-inner">
-    <div class="overview-stat">
-      <span class="stat-num">2</span>
-      <span class="stat-label">Days of Adventure</span>
-    </div>
-    <div class="overview-stat">
-      <span class="stat-num">9</span>
-      <span class="stat-label">Destinations</span>
-    </div>
-    <div class="overview-stat">
-      <span class="stat-num">~8h</span>
-      <span class="stat-label">Total Drive Time</span>
-    </div>
-    <div class="overview-stat">
-      <span class="stat-num">2</span>
-      <span class="stat-label">Province Visits</span>
-    </div>
-    <div class="overview-stat">
-      <span class="stat-num">∞</span>
-      <span class="stat-label">Memories Made</span>
-    </div>
-  </div>
-</div>
-
-<!-- DAY 1 -->
-<section class="day-section" id="day1">
-  <div class="container">
-    <div class="section-header">
-      <div class="day-badge">01</div>
-      <div class="section-title-block">
-        <p class="section-kicker">Friday, May 15, 2026</p>
-        <h2 class="section-title">La Union Day —<br>Surf, Sips & Sunsets</h2>
-        <p class="section-subtitle">Midnight departure · Grapes · Mountain views · Beach vibes</p>
-      </div>
-      <a class="route-btn" href="https://maps.app.goo.gl/6WnB7FxzDJWv4apB9" target="_blank" rel="noopener">
-        🗺 View Day 1 Route
+    <!-- Route Button -->
+    <div class="route-section">
+      <a class="route-btn"
+         href="https://www.google.com/maps/dir/106+Metom+St+Commonwealth+Quezon+City/Manaoag+Church+Pangasinan/Agoo+Eco+Park+Beach+La+Union/The+Mansion+La+Union/Camansi+Bridge+San+Fernando+La+Union/Park+and+Surf+Urbiztondo+San+Juan+La+Union"
+         target="_blank">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        Open Full Day 1 Route in Google Maps
       </a>
     </div>
 
     <div class="timeline">
 
-      <!-- STOP 1: Departure -->
+      <!-- STOP 1: DEPARTURE -->
+      <div class="stop overnight">
+        <div class="stop-time">
+          <span class="time-badge" style="color:var(--night)">12:00 AM</span>
+          <span class="time-sub">Midnight Departure</span>
+        </div>
+        <div class="stop-dot night-card" style="background:var(--night)">🚗</div>
+        <div class="stop-card night-card">
+          <div class="card-accent" style="background:linear-gradient(90deg,var(--night),#1a6b7c)"></div>
+          <div class="card-body">
+            <span class="card-icon">🌙</span>
+            <h3 class="card-title">Departure — Balingasa, Quezon City</h3>
+            <p class="card-desc">Midnight departure from 106 Metom St., Commonwealth, Quezon City. Enter NLEX via the <strong>Mindanao Avenue Toll Gate</strong>. Driving at midnight beats the daytime heat and heavy traffic, giving you a smooth, cooler ride all the way north.</p>
+            <div class="card-tips" style="border-left-color:var(--night)">
+              <strong style="color:var(--night)">💡 Tips</strong>
+              Prepare snacks and drinks beforehand. Assign a co-driver for the NLEX stretch. Bring exact change or an e-pass (Easytrip/Autosweep) for the toll. Make sure the car is fueled up before departure.
+            </div>
+            <a class="maps-link" style="color:var(--night);background:#f5f5f5"
+               href="https://www.google.com/maps/place/106+Metom+St,+Commonwealth+Ave,+Quezon+City" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- STOP 2: MANAOAG -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">5:00 AM</span>
+          <span class="time-sub">~5 hrs from QC</span>
+        </div>
+        <div class="stop-dot">⛪</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">12:00 AM</div>
-              <span class="stop-icon">🚗</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🕍</span>
+            <h3 class="card-title">Manaoag Church — Quick Stopover</h3>
+            <p class="card-desc">A beloved pilgrimage site in Pangasinan — the <strong>Minor Basilica of Our Lady of the Rosary of Manaoag</strong>. Millions of devotees visit to pray before the miraculous image of Our Lady. The church opens at 4:00 AM making your early arrival perfect for a quiet, reverent moment before the day fills up.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Dress modestly (cover shoulders and knees). Candles are sold at stalls outside. Parking is street-side — allow a few minutes to park. The church area is serene and cool at this hour. Use the restroom here before continuing.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Departure — Balingasa, Commonwealth</div>
-              <div class="stop-location">📍 106 Metom St, Commonwealth, Quezon City</div>
-              <div class="stop-tags">
-                <span class="tag">Pick-Up Point</span>
-                <span class="tag">via NLEX Mindanao Ave</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/XfzJHg8oXPJ3524ZA" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">The adventure begins at the stroke of midnight! A late-night departure is the classic road tripper's move — beat the Metro Manila traffic, arrive fresh, and make the most of the day ahead. Enter NLEX via the Mindanao Avenue toll gate for a smooth northbound journey.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Midnight Departure</div>
-              <ul class="tips-list">
-                <li>Fill up the tank the night before — gas stations may be scarce after midnight on some NLEX stretches</li>
-                <li>Designate drivers and plan your rest stop shifts before leaving</li>
-                <li>Prepare playlist, snacks, and pillows for backseat passengers</li>
-                <li>Expect to pay NLEX toll at Mindanao Ave — have EasyTrip or exact change ready</li>
-                <li>Drive time to Manaoag is approximately 4.5–5 hours without traffic</li>
-              </ul>
-            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJg7kVofNqkTMR5gkoSJHPDGs" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 2: Manaoag -->
+      <!-- STOP 3: HEAD TO LA UNION -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">6:00 AM</span>
+          <span class="time-sub">Onwards to La Union</span>
+        </div>
+        <div class="stop-dot">🛣️</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">5:00 AM</div>
-              <span class="stop-icon">⛪</span>
-            </div>
-            <div class="stop-main">
-              <div class="stop-name">Manaoag Church</div>
-              <div class="stop-location">📍 Minor Basilica of Our Lady of the Rosary, Manaoag, Pangasinan</div>
-              <div class="stop-tags">
-                <span class="tag">Pilgrimage</span>
-                <span class="tag">Rest Stop</span>
-                <span class="tag ocean">⭐ 4.8 / 5</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/cH2MhGb3JA98ZUdD8" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">A beloved tradition for road trippers heading north, the Minor Basilica of Our Lady of the Rosary of Manaoag is one of the most revered Marian shrines in the Philippines. Arriving at 5 AM means you'll catch the early morning Mass and experience the church in its most peaceful, spiritually uplifting state — mist still in the air, candles flickering, pilgrims deep in prayer. This is also your perfect pit stop: stretch your legs, freshen up, and enjoy your home-cooked breakfast (baon) in the peaceful church grounds.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Manaoag</div>
-              <ul class="tips-list">
-                <li>The church opens at 4:00 AM — you'll likely arrive right at its most serene hour</li>
-                <li>Paid parking is available around the church area; no parking inside the church compound</li>
-                <li>Dress modestly — cover shoulders and knees inside the basilica</li>
-                <li>Buy candles at the church store for prayers (a lovely tradition)</li>
-                <li>Restrooms are available near the compound — perfect for a full road-trip freshen-up</li>
-                <li>Enjoy your baon breakfast on the church grounds or in the car before heading out</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★★</span>
-              <span>4.8 · 10,226 reviews · Open daily 4:00 AM – 9:00 PM · Tel: +63 995 514 9783</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🌅</span>
+            <h3 class="card-title">Back on the Road — Heading North</h3>
+            <p class="card-desc">After prayers at Manaoag, continue north along the <strong>MacArthur Highway (Pan-Philippine Highway)</strong> toward La Union. The drive from Manaoag to Agoo is approximately 1.5 hours. The morning light over the Pangasinan plains at this hour is stunning.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Tune into a good playlist or podcast for the drive. The road passes through Urdaneta and San Carlos — fuel stops are available if needed. The sunrise will be out around 5:30 AM — enjoy the golden hour on the highway!
             </div>
           </div>
         </div>
       </div>
 
-      <!-- STOP 3: Gapuz -->
+      <!-- STOP 4: AGOO ECO PARK -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">7:30 AM</span>
+          <span class="time-sub">Until 9:30 AM</span>
+        </div>
+        <div class="stop-dot">🏖️</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">7:30 AM</div>
-              <span class="stop-icon">🍇</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🌊</span>
+            <h3 class="card-title">Agoo Eco Park Beach</h3>
+            <p class="card-desc">Your first taste of La Union's coastline! <strong>Agoo Eco Park</strong> is a well-maintained beach park in Santa Rita, Agoo — perfect for a picnic breakfast while enjoying the sea breeze. The park features a walkable shoreline, relaxing greenery, and a laid-back atmosphere that's ideal for your first morning rest stop.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              There is an entrance fee (separate receipts for different areas). Bring your own breakfast — pack sandwiches, pandesal, or instant noodles from a thermos for a beach picnic! Cottages are near the entrance. If you want to be closer to the sea, take a walk along the shore. Bring extra plastic bags for trash disposal.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Gapuz Grapes Farm</div>
-              <div class="stop-location">📍 MacArthur Hwy, Bauang, La Union</div>
-              <div class="stop-tags">
-                <span class="tag">Farm Experience</span>
-                <span class="tag">Grape Picking</span>
-                <span class="tag ocean">⭐ 4.3 / 5</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/ibrm71EMMhtTCECT9" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">Welcome to La Union! One of the region's most beloved agri-tourism attractions, Gapuz Grapes Farm is the original family-owned vineyard that helped establish Bauang as grape country. May is right in harvest season — you'll likely get to pick plump grapes straight from the vine! The farm also sells grape wine, fresh grapes, and locally made products perfect as pasalubong.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Gapuz Farm</div>
-              <ul class="tips-list">
-                <li>Call ahead (+63 917 554 0966) to confirm availability — they appreciate notice and will have a guide ready</li>
-                <li>Follow Google Maps exactly — impostors near the road will try to redirect you to other farms. Trust the GPS!</li>
-                <li>May is peak harvest season — expect ₱350/kg for grapes (subject to change)</li>
-                <li>The road leading in is bumpy — not recommended for very lowered cars</li>
-                <li>Pick up grape wine as pasalubong — best enjoyed chilled!</li>
-                <li>Allot ~1.5–2 hours for the full experience</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★</span>
-              <span>4.3 · 1,146 reviews · Open daily 7:00 AM – 6:00 PM · Tel: +63 917 554 0966</span>
-            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJd3mp0vJ5kTMRjSxIavQQun4" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 4: The Mansion La Union -->
+      <!-- STOP 5: THE MANSION -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">10:30 AM</span>
+          <span class="time-sub">Until 11:30 AM</span>
+        </div>
+        <div class="stop-dot">🏰</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">9:30 AM</div>
-              <span class="stop-icon">☕</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">☕</span>
+            <h3 class="card-title">The Mansion La Union — Coffee &amp; Photos</h3>
+            <p class="card-desc"><strong>The Mansion La Union</strong> sits atop a hill in Talogtog, San Juan, offering a breathtaking panoramic view of San Juan Beach and the South China Sea. Its hilltop coffee shop serves espresso-based drinks and light refreshments. It's one of the most Instagrammable spots in La Union, with a rustic-chic aesthetic perfect for group photos.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              The road going up is very steep with 3 challenging sections — make sure your driver is confident on inclines! Low-clearance vehicles should take extra care. There's also a pedestrian stairway if some prefer to walk up. Come before 11 AM to beat the crowd. Order the iced latte — reviewers love it! Clear weather offers the best photo opportunities.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">The Mansion La Union</div>
-              <div class="stop-location">📍 Upper Talogtog, San Juan, La Union</div>
-              <div class="stop-tags">
-                <span class="tag">Scenic Viewpoint</span>
-                <span class="tag">Coffee Stop</span>
-                <span class="tag ocean">⭐ 4.5 / 5</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/R1a1zrqoPEXS9seT9" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">Perched on a mountaintop overlooking the stunning coastline of San Juan Beach, The Mansion La Union is pure Instagram gold — but even better in person. The panoramic view of the South China Sea below is absolutely breathtaking, especially on a clear May morning. Grab a cortado or iced latte from the café, take your group photos, breathe in the fresh highland air, and soak in what's arguably one of the best views in La Union.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for The Mansion</div>
-              <ul class="tips-list">
-                <li>The road up is <strong>very steep</strong> with 3 sharp inclines — make sure your vehicle is in good condition before heading up</li>
-                <li>There are separate stairs for pedestrians if anyone prefers to walk up</li>
-                <li>Best views on a clear day — May weather is typically sunny and fair, perfect timing!</li>
-                <li>Coffee menu is limited but good — their iced latte is recommended by regulars</li>
-                <li>Coordinate with traffic going up/down the single-lane road before proceeding</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★½</span>
-              <span>4.5 · 71 reviews · Mountain-top café with panoramic ocean views</span>
-            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJwfw7koCNkTMRDPzMEx8Z1bw" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 5: Auntie Ludy's -->
+      <!-- STOP 6: AUNTIE LUDY'S -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">12:00 NN</span>
+          <span class="time-sub">Lunch &amp; Rest</span>
+        </div>
+        <div class="stop-dot">🏡</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">11:30 AM</div>
-              <span class="stop-icon">🍽</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🍽️</span>
+            <h3 class="card-title">Auntie Ludy's House — Camansi, San Fernando</h3>
+            <p class="card-desc">Arrive at your home base in <strong>Camansi, San Fernando, La Union</strong>. After the long drive since midnight, this is your most important rest stop of the day — lunch with family, a nap, and time to freshen up before the afternoon beach adventure. Nothing beats home-cooked Filipino food after a road trip!</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Rest at least 2–3 hours before heading to the beach. Change into swimwear and pack a beach bag: sunscreen, towels, extra clothes, cash (for food and surf rental). San Fernando City is close to all the major beach towns of La Union.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Auntie Ludy's (Lunch + Home Base)</div>
-              <div class="stop-location">📍 Camansi, San Fernando City, La Union</div>
-              <div class="stop-tags">
-                <span class="tag">Lunch</span>
-                <span class="tag">Home Base</span>
-                <span class="tag">Overnight Stay</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/dhkVKbbk5RStTJR99" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">Lunch and home base! Auntie Ludy's place in Camansi, San Fernando is your warm, welcoming rest haven for this trip. After the morning's adventures, enjoy a hearty homemade lunch here before heading out to the beach. San Fernando City is the capital of La Union province — you're in the heart of it all. This is also where you'll return in the evening and spend the night before Day 2's Baguio adventure.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Home Base</div>
-              <ul class="tips-list">
-                <li>Leave non-essential bags and valuables here before heading to Urbiztondo — you'll want to travel light to the beach</li>
-                <li>Pack a separate beach bag with towels, change of clothes, sunscreen, and cash</li>
-                <li>Rest if you need it! A quick 30-minute nap can do wonders after a midnight drive</li>
-                <li>Return by 7:30 PM for dinner and evening wind-down before Day 2</li>
-              </ul>
-            </div>
+            <a class="maps-link"
+               href="https://www.google.com/maps/place/Camansi+Bridge,+San+Fernando,+La+Union" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Camansi Bridge Pin
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 6: Urbiztondo -->
+      <!-- STOP 7: PARK & SURF / URBIZTONDO -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">3:00 PM</span>
+          <span class="time-sub">Until 7:00 PM</span>
+        </div>
+        <div class="stop-dot">🏄</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">3:00–7:30 PM</div>
-              <span class="stop-icon">🏄</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🌊</span>
+            <h3 class="card-title">Park &amp; Surf → Urbiztondo &amp; San Juan Beach</h3>
+            <p class="card-desc"><strong>Urbiztondo Beach in San Juan, La Union</strong> is the surfing capital of the Philippines' north. Park at <strong>Park &amp; Surf</strong> (₱200/car, accept GCash/cash) steps from the beach. Spend the golden afternoon hours swimming, trying surfing lessons (beginner boards available from local surf schools), and exploring the strip of cafés, restaurants, and surf shops along Urbiztondo's famous beachfront.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Surfing lessons typically cost ₱300–₱500/hour with board rental included. The waves are strong — non-swimmers should stay in shallow areas. Must-try eats along the strip: La Union Brewery, Flotsam &amp; Jetsam, Maríwasa. The beach gets gorgeous at golden hour around 5–6 PM. Head back by 7 PM to avoid traffic leaving San Juan.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Urbiztondo Beach — Surf, Swim & Nightlife</div>
-              <div class="stop-location">📍 Urbiztondo, San Juan, La Union</div>
-              <div class="stop-tags">
-                <span class="tag">Surfing</span>
-                <span class="tag">Swimming</span>
-                <span class="tag">Nightlife</span>
-                <span class="tag ocean">⭐ 4.4 / 5</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/fwdMfaM7QTkT4XXA6" target="_blank" rel="noopener">📍 Map</a>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJ4x-j81WNkTMRZb_YKxCZ3Yg" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
-          <div class="stop-body">
-            <p class="stop-desc">This is what La Union is famous for! Urbiztondo in San Juan is the surf capital of Northern Luzon — a sun-soaked strip of golden sand lined with surf schools, beach bars, restaurants, and local shops. With 4.5 glorious hours from 3 PM, you'll have time to catch some waves (or learn!), swim in the afternoon sun, watch the epic sunset from the shoreline, and explore the vibrant nightlife scene as the beach transforms after dark. Park at <strong>Park & Surf</strong> for secure, convenient car storage.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Urbiztondo</div>
-              <ul class="tips-list">
-                <li><strong>Park at Park & Surf</strong>: ₱200 parking until 1 AM, accepts cash and online payment. Keep your ticket stub for re-entry</li>
-                <li>Surfing lessons available on the beach — beginners welcome, instructors are friendly and non-pushy</li>
-                <li>May afternoon waves are great for beginners — not too big, not too small</li>
-                <li>Bring waterproof phone case or dry bag for your phone and valuables at the beach</li>
-                <li>Reef-safe sunscreen is encouraged — the coastal environment will thank you</li>
-                <li>Many great food stalls and restaurants along the strip — try local seafood!</li>
-                <li>The area gets lively at sunset and into the evening — great bar-hopping vibes</li>
-                <li>Wear water shoes — some areas have rocks on the shoreline</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★</span>
-              <span>4.4 · 383 reviews · Open 24 hours · Surfing capital of Northern Luzon</span>
+        </div>
+      </div>
+
+      <!-- STOP 8: RETURN -->
+      <div class="stop overnight">
+        <div class="stop-time">
+          <span class="time-badge" style="color:var(--night)">7:00 PM</span>
+          <span class="time-sub">End of Day 1</span>
+        </div>
+        <div class="stop-dot night-card" style="background:var(--night)">🌙</div>
+        <div class="stop-card night-card">
+          <div class="card-accent" style="background:linear-gradient(90deg,var(--night),var(--ocean))"></div>
+          <div class="card-body">
+            <span class="card-icon">🏠</span>
+            <h3 class="card-title">Return to Auntie Ludy's for the Night</h3>
+            <p class="card-desc">Head back to Camansi, San Fernando for dinner and rest. It's been a long but incredible first day — from midnight in Quezon City to a Pangasinan church, a beach picnic, mountain coffee, and surfing in La Union. Sleep early; Day 2 starts at 5 AM!</p>
+            <div class="card-tips" style="border-left-color:var(--night)">
+              <strong style="color:var(--night)">💡 Tonight's Prep</strong>
+              Rinse off saltwater from gear and swimwear. Pack bags for tomorrow's Baguio day trip. Set alarm for 5 AM. Charge all devices overnight. Confirm meeting time with relatives in Baguio.
             </div>
           </div>
         </div>
       </div>
 
-      <div class="overnight-banner">
-        <div class="overnight-icon">🌙</div>
-        <div class="overnight-text">
-          <h3>Overnight at Auntie Ludy's, Camansi, San Fernando, La Union</h3>
-          <p>Return by 7:30 PM for dinner, rest, and prep for tomorrow's Baguio day. Get a good night's sleep — you'll be hitting the road by 8:00 AM for the scenic Naguillian Road climb to Baguio City!</p>
-        </div>
-      </div>
+    </div><!-- /timeline day1 -->
+  </div><!-- /day1 -->
 
+  <!-- ══════════════════════════════════════
+       DAY 2 — MAY 16
+  ═══════════════════════════════════════ -->
+  <div class="day2 day2-section">
+
+    <div class="notice-banner">
+      ⚠️ PMA Graduation Rites on May 16 — Avoid areas near the Philippine Military Academy in Baguio. Expect heavy traffic along Loakan Road and near Camp John Hay.
     </div>
-  </div>
-</section>
 
-<!-- DAY 2 -->
-<section class="day-section day2" id="day2">
-  <div class="container">
-    <div class="section-header">
-      <div class="day-badge">02</div>
-      <div class="section-title-block">
-        <p class="section-kicker">Saturday, May 16, 2026</p>
-        <h2 class="section-title">Baguio Day —<br>Pastries, Pine & Sunsets</h2>
-        <p class="section-subtitle">Naguillian Road · Mountain dining · Relatives · Homebound</p>
-      </div>
-      <a class="route-btn" href="https://www.google.com/maps/dir/Camansi+San+Fernando+La+Union/Tan-aw+sa+Alang+Tuba+Benguet/L'Atelier+Du+Grain+Baguio/Baguio+City/Camp+Khawa+Loakan+Baguio/Commonwealth+Quezon+City" target="_blank" rel="noopener">
-        🗺 View Day 2 Route
+    <div class="day-header">
+      <div class="day-label">Day Two</div>
+      <p class="day-subtitle">Saturday, May 16, 2026 — Grapes, Mountains &amp; Baguio</p>
+    </div>
+
+    <!-- Route Button -->
+    <div class="route-section">
+      <a class="route-btn"
+         href="https://www.google.com/maps/dir/Camansi+Bridge+San+Fernando+La+Union/Gapuz+Grapes+Farm+Bauang+La+Union/Tan-aw+sa+Alang+Tuba+Benguet/SM+Baguio/Burnham+Park+Baguio/L+Atelier+Du+Grain+Baguio"
+         target="_blank">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        Open Full Day 2 Route in Google Maps
       </a>
     </div>
 
     <div class="timeline">
 
-      <!-- STOP 7: Morning prep -->
+      <!-- STOP 1: EARLY MORNING -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">5:00 AM</span>
+          <span class="time-sub">Morning Prep</span>
+        </div>
+        <div class="stop-dot">☀️</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">6:00 AM</div>
-              <span class="stop-icon">🌅</span>
-            </div>
-            <div class="stop-main">
-              <div class="stop-name">Morning Prep & Breakfast at Auntie Ludy's</div>
-              <div class="stop-location">📍 Camansi, San Fernando City, La Union</div>
-              <div class="stop-tags">
-                <span class="tag pine">Breakfast</span>
-                <span class="tag pine">Morning Prep</span>
-              </div>
-            </div>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">Rise and shine! Wake up with the mountain breeze of La Union, enjoy a home-cooked breakfast at Auntie Ludy's, pack your bags, and get ready for a scenic day in Baguio City. The drive via Naguillian Road (an alternate and more scenic route to Baguio) takes approximately 1.5–2 hours.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Morning Tips</div>
-              <ul class="tips-list">
-                <li>Pack layers — Baguio City is significantly cooler (expect 15–20°C in May)</li>
-                <li>Charge all devices the night before; download offline maps in case of signal issues in mountain areas</li>
-                <li>Naguillian Road is a winding mountain road — inform anyone prone to motion sickness to take medicine before departure</li>
-              </ul>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🌄</span>
+            <h3 class="card-title">Early Rise &amp; Breakfast at Auntie Ludy's</h3>
+            <p class="card-desc">Rise early for a home-cooked breakfast at Auntie Ludy's before a packed Day 2. Today takes you from La Union's coastline up into the mountains of Baguio — a stunning contrast of sea and pine. Departing early ensures you beat the tourist traffic heading up to Baguio, especially with the PMA graduation today.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Eat a full breakfast — it's a long day. Dress in layers; Baguio can be 10–15°C cooler than La Union. Bring a jacket or hoodie. Double-check that all belongings are packed from the overnight stay.
             </div>
           </div>
         </div>
       </div>
 
-      <!-- STOP 8: Naguillian Road drive -->
+      <!-- STOP 2: DEPARTURE -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">8:00 AM</span>
+          <span class="time-sub">Depart San Fernando</span>
+        </div>
+        <div class="stop-dot">🚗</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">8:00 AM</div>
-              <span class="stop-icon">⛰</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🏔️</span>
+            <h3 class="card-title">Departure from Auntie Ludy's House</h3>
+            <p class="card-desc">Leave from <strong>Camansi Bridge, San Fernando, La Union</strong>. Head south along MacArthur Highway toward Bauang for the Gapuz Grapes Farm. The drive to Bauang takes roughly 30–40 minutes from San Fernando, passing through the agricultural lowlands of La Union.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Say your thank-yous and goodbyes properly! Leave the place as clean as you found it. The road from San Fernando to Bauang is well-paved and straightforward.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Scenic Drive — Naguillian Road to Baguio</div>
-              <div class="stop-location">📍 San Fernando, La Union → Baguio City via Naguillian Rd</div>
-              <div class="stop-tags">
-                <span class="tag pine">Scenic Route</span>
-                <span class="tag pine">~2 Hours</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://www.google.com/maps/dir/San+Fernando+La+Union/Baguio+City+via+Naguillian+Road" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">The Naguillian Road (also called La Union–Baguio Road) is one of the most scenic alternate routes to Baguio — winding up through mountains, past terraced hillsides, and offering jaw-dropping views of the La Union coast below. It's a slightly longer route than Kennon Road but typically more reliable and absolutely gorgeous on a clear morning.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Naguillian Road Tips</div>
-              <ul class="tips-list">
-                <li>The road is winding and narrow in some sections — drive carefully, especially if unfamiliar</li>
-                <li>Watch out for local buses and trucks on hairpin turns — yield where needed</li>
-                <li>Fuel up in San Fernando before departing — gas stations become scarce on the mountain stretch</li>
-                <li>Stop at scenic pullouts for photos — the views of the coast are spectacular at altitude!</li>
-              </ul>
-            </div>
+            <a class="maps-link"
+               href="https://www.google.com/maps/place/Camansi+Bridge,+San+Fernando,+La+Union" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Camansi Bridge Pin
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 9: Tan-aw sa Alang -->
+      <!-- STOP 3: GAPUZ GRAPES -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">9:00 AM</span>
+          <span class="time-sub">Until 10:00 AM</span>
+        </div>
+        <div class="stop-dot">🍇</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">10:00 AM–<br>12:00 NN</div>
-              <span class="stop-icon">🌿</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🍇</span>
+            <h3 class="card-title">Gapuz Grapes Farm — Bauang, La Union</h3>
+            <p class="card-desc"><strong>Gapuz Grapes Farm</strong> is one of the most unique agri-tourism stops in northern Luzon — a working vineyard in the lowlands of Bauang where you can actually pick grapes straight from the vine. May is peak grape season, making your timing ideal! The farm sells fresh grapes by the kilo (around ₱350/kg) and produces homemade grape wine, jam, and vinegar.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Call ahead to confirm availability: <strong>+63 917 554 0966</strong>. The road to the farm is bumpy — not recommended for lowered cars. Don't follow signs on the highway — follow Google Maps to the actual Gapuz Farm. Guides are available at the entrance. Stock up on grape wine and pastillas as pasalubong! Farm opens at 7 AM.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Tan-aw sa Alang</div>
-              <div class="stop-location">📍 Ben Palispis Hwy, Tuba, Benguet</div>
-              <div class="stop-tags">
-                <span class="tag pine">Restaurant</span>
-                <span class="tag pine">Mountain Views</span>
-                <span class="tag pine">⭐ 4.4 / 5</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/HA3qBZDMXicyQS9s8" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">A true hidden gem along the Baguio approach road, Tan-aw sa Alang is a rustic mountain café and restaurant perched with a stunning overlooking view of forested valleys and mini terraces. The name itself means "view from above" in Ilocano — and it delivers. Their brewed Benguet coffee served with balikutsa (native caramel candy) is legendary, and the Tokwa & Bagnet dish is a crowd favorite that's worth ordering twice. When the weather is misty, you'll quite literally be dining in the clouds.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Tan-aw sa Alang</div>
-              <ul class="tips-list">
-                <li><strong>Must order</strong>: Brewed Benguet coffee with balikutsa, and the Tokwa & Bagnet (highly rated!)</li>
-                <li>Serves all-day breakfast — bangsilog, longganisa, banana bread are also great picks</li>
-                <li>Pet-friendly with good parking and clean restrooms</li>
-                <li>Pick up pasalubong from their native goods section</li>
-                <li>Plan for 2 hours here — the views invite you to linger</li>
-                <li>Open Sat until 7:00 PM; breakfast/brunch is your sweet spot</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★</span>
-              <span>4.4 · 340 reviews · Mon–Fri 7AM–6PM · Sat–Sun 7AM–7PM · Tel: +63 998 887 9216</span>
-            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJm4xl2FeDkTMRrYX5Ur7dJ2k" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 10: L'Atelier Du Grain -->
+      <!-- STOP 4: TAN-AW SA ALANG -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">11:30 AM</span>
+          <span class="time-sub">Until 1:00 PM</span>
+        </div>
+        <div class="stop-dot">🍳</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">12:30–1:00 PM</div>
-              <span class="stop-icon">🥐</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🏔️</span>
+            <h3 class="card-title">Tan-aw sa Alang — Lunch with a View</h3>
+            <p class="card-desc"><strong>Tan-aw sa Alang</strong> on the Ben Palispis Highway in Tuba, Benguet is a hidden gem perched overlooking forested mountains and mini-terraces. The name literally means "view from the mountain gap" — and it delivers. Open all day for breakfast items, they're famous for their <em>Tokwa and Bagnet</em>, Benguet brewed coffee with balikutsa (native sugar candy), and freshly baked banana bread. On cool, foggy days, you literally dine inside the clouds.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Opens at 7 AM — they serve all-day breakfast. Must order: Tokwa &amp; Bagnet (5★ reviewed), Brewed Benguet Coffee with balikutsa, Banana Bread. Pet-friendly! They also sell local pasalubong. Phone: <strong>+63 998 887 9216</strong>. They close at 6 PM weekdays, 7 PM weekends.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">L'Atelier Du Grain</div>
-              <div class="stop-location">📍 37 Military Cutoff Rd, Baguio City</div>
-              <div class="stop-tags">
-                <span class="tag pine">Artisan Bakery</span>
-                <span class="tag pine">Pastries</span>
-                <span class="tag pine">⭐ 4.6 / 5</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/vKRceLJiPQyZ9bh29" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">Easily one of Baguio's most talked-about bakeries, L'Atelier Du Grain is an artisanal pastry shop that has earned cult status among food lovers. Their buttery, flaky croissants and delicate tart shells are genuinely exceptional — the strawberry cheesecake tart in particular is a must-try. The shop is small and gets crowded, but the quality of every bite makes it worth the squeeze. A short and sweet stop that makes a big impression.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for L'Atelier Du Grain</div>
-              <ul class="tips-list">
-                <li><strong>Must-try</strong>: Croissant, Strawberry Cheesecake Tart, seasonal pastries</li>
-                <li>Minimum order of ₱500 — but easily met with their irresistible selection</li>
-                <li>Accepts credit cards (convenient!)</li>
-                <li>Parking is tight in the area — Military Cutoff Rd can get busy; arrive with patience</li>
-                <li>Get pastries to-go and enjoy them at nearby Burnham Park or Session Road area</li>
-                <li>A non-negotiable Baguio stop according to reviewers — don't skip this one!</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★½</span>
-              <span>4.6 · 168 reviews · Open daily 8:00 AM – 8:00 PM · Tel: +63 908 759 1878</span>
-            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJk0C7Az2hkTMRPbCNQTBeJnk" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 11: Relatives -->
+      <!-- STOP 5: RELATIVES / SM BAGUIO -->
       <div class="stop">
-        <div class="stop-dot"></div>
-        <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">1:00–3:00 PM</div>
-              <span class="stop-icon">👨‍👩‍👧‍👦</span>
+        <div class="stop-time">
+          <span class="time-badge">1:30 PM</span>
+          <span class="time-sub">Until 3:00 PM</span>
+        </div>
+        <div class="stop-dot">👨‍👩‍👧‍👦</div>
+        <div class="stop-card alert-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🤝</span>
+            <h3 class="card-title">Meet Relatives — SM Baguio Meetup Point</h3>
+            <p class="card-desc">Meeting point pinned at <strong>SM Baguio</strong> — the iconic mall perched on a cliff with stunning views. SM Baguio is easy to find, has ample parking, and makes an excellent meeting hub for the whole group. Spend time catching up with relatives before heading to Burnham Park.</p>
+            <div class="alert-box">
+              <strong>⚠️ PMA Graduation Day Alert</strong>
+              Avoid Loakan Road, Camp John Hay, and roads near the Philippine Military Academy today. Heavy traffic and road closures are expected. Use Marcos Highway or Kennon Road as alternatives.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Meet Relatives in Baguio</div>
-              <div class="stop-location">📍 Baguio City (location flexible)</div>
-              <div class="stop-tags">
-                <span class="tag pine">Family Time</span>
-                <span class="tag pine">Flexible Schedule</span>
-              </div>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              SM Baguio has a rooftop park with panoramic city views — great for a quick photo. Starbucks here overlooks the mountains — iconic! Validate parking inside. The mall is a good spot to shop for ukay-ukay or Baguio ref magnets.
             </div>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">Quality time with family is priceless! This 2-hour window is set aside to visit and reconnect with relatives in Baguio — one of the highlights of any trip to the City of Pines. The timing is flexible depending on the relatives' availability, so coordinate with them ahead of time. If there's extra time, Baguio's iconic spots are just minutes away.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips & Backup Ideas</div>
-              <ul class="tips-list">
-                <li>Confirm relatives' schedule 1–2 days before to plan meeting point</li>
-                <li>If time permits: Burnham Park, Session Road, and Mines View Park are nearby</li>
-                <li>Good time to buy pasalubong: ube jam, strawberry jam, Baguio longganisa, peanut brittle</li>
-                <li>Market! Market! and Good Shepherd Convent are classic pasalubong stops</li>
-              </ul>
-            </div>
+            <a class="maps-link"
+               href="https://www.google.com/maps/place/SM+City+Baguio" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              SM Baguio on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- STOP 12: Cafe Khawa -->
+      <!-- STOP 6: BURNHAM PARK -->
       <div class="stop">
-        <div class="stop-dot"></div>
+        <div class="stop-time">
+          <span class="time-badge">4:00 PM</span>
+          <span class="time-sub">Until ~5:30 PM</span>
+        </div>
+        <div class="stop-dot">🌳</div>
         <div class="stop-card">
-          <div class="stop-header">
-            <div class="stop-time-block">
-              <div class="stop-time">4:00 PM</div>
-              <span class="stop-icon">🌄</span>
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🌿</span>
+            <h3 class="card-title">Burnham Park Picnic — Baguio City</h3>
+            <p class="card-desc"><strong>Burnham Park</strong> is the green heart of Baguio City, a beloved public park named after American architect Daniel Burnham who designed Baguio's city plan. The park features a scenic artificial lake with boat rentals, a rose garden, a children's playground, and wide open lawns perfect for a late-afternoon picnic. The cool mountain air at this hour is divine.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Rent bikes around the park (₱30–₱60/30 min). Boat rides on the lake are a fun family activity. Food stalls and kiosks sell Baguio favorites: strawberry taho, peanut brittle, and ube pastillas. The park is open 24 hours and free to enter! Leave by 5:30 PM latest to beat the Baguio exit traffic.
             </div>
-            <div class="stop-main">
-              <div class="stop-name">Cafe Khawa — Early Dinner & Sunset</div>
-              <div class="stop-location">📍 Loakan, Baguio City, Benguet</div>
-              <div class="stop-tags">
-                <span class="tag pine">Early Dinner</span>
-                <span class="tag pine">Sunset Views</span>
-                <span class="tag pine">Mountain Café</span>
-              </div>
-            </div>
-            <a class="stop-map-btn" href="https://maps.app.goo.gl/ee83dmUTTJRkTCpG6" target="_blank" rel="noopener">📍 Map</a>
-          </div>
-          <div class="stop-body">
-            <p class="stop-desc">The perfect sendoff to your La Union–Baguio adventure! Cafe Khawa in Loakan is a tucked-away mountain escape with scenic views, cool pine-fresh air, and a welcoming, laid-back atmosphere. It's the ideal spot to enjoy an early dinner as the sun dips toward the horizon before you hit the road home. The ambiance is calming and photogenic — beautiful woodwork, mountain vistas, and the kind of quiet that makes you wish the trip wasn't ending.</p>
-            <div class="tips-box">
-              <div class="tips-title">💡 Tips for Cafe Khawa</div>
-              <ul class="tips-list">
-                <li>Arrive by 4:00 PM to secure good seats with views before the sunset crowd</li>
-                <li>Best seats: outdoor or window-facing for the sunset panorama</li>
-                <li>Bring a jacket — Loakan's elevation makes it cooler than central Baguio</li>
-                <li>Check their food menu ahead of time; some items have limited availability</li>
-                <li>Good parking available — a rare convenience in Baguio!</li>
-                <li>Target departure by 6:00–6:30 PM to make it back to Commonwealth at a reasonable hour</li>
-              </ul>
-            </div>
-            <div class="rating-row">
-              <span class="stars">★★★★</span>
-              <span>Scenic mountain café with ample parking · Loakan, Baguio · Tel: +63 997 946 7169</span>
-            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJiYLvmGmhkTMR8rwh5qkzitE" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Final: Homebound -->
-      <div class="overnight-banner" style="background: linear-gradient(135deg, #2a4f37, #3a6647);">
-        <div class="overnight-icon">🏠</div>
-        <div class="overnight-text">
-          <h3>Head Home to Commonwealth by 6:30 PM</h3>
-          <p>Drive from Baguio via NLEX back to Quezon City — approximately 5–6 hours depending on traffic. Expect to arrive home by midnight. What a trip! 🙌 Safe travels, and treasure those memories.</p>
+      <!-- STOP 7: L'ATELIER DU GRAIN -->
+      <div class="stop">
+        <div class="stop-time">
+          <span class="time-badge">Before 6 PM</span>
+          <span class="time-sub">Pasalubong Stop</span>
+        </div>
+        <div class="stop-dot">🥐</div>
+        <div class="stop-card">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <span class="card-icon">🧁</span>
+            <h3 class="card-title">L'Atelier Du Grain — Pasalubong &amp; Homeward</h3>
+            <p class="card-desc"><strong>L'Atelier Du Grain</strong> on Military Cutoff Road is Baguio's most beloved artisan bakery — famous for impossibly buttery croissants, elegant tart shells, strawberry cheesecake tarts, and French-inspired pastries. One reviewer called it "a non-negotiable Baguio stop." Pick up boxes of pastries as the ultimate pasalubong before beginning the drive home to Manila. Opens at 8 AM, closes at 8 PM.</p>
+            <div class="card-tips">
+              <strong>💡 Tips</strong>
+              Minimum order ₱500 — they accept credit cards. Parking is tight; arrive early or have someone wait in the car. Must-buy: Croissants, Strawberry Cheesecake Tart, Tart Shells. The ground floor is compact — order quickly and enjoy pastries on the way home. Phone: <strong>+63 908 759 1878</strong>
+            </div>
+            <a class="maps-link"
+               href="https://maps.google.com/?cid=ChIJJ3AHQgChkTMR4MKyCjDkMUc" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              View on Google Maps
+            </a>
+          </div>
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
+      <!-- STOP 8: DRIVE HOME -->
+      <div class="stop overnight">
+        <div class="stop-time">
+          <span class="time-badge" style="color:var(--night)">6:00 PM</span>
+          <span class="time-sub">Drive Home to QC</span>
+        </div>
+        <div class="stop-dot night-card" style="background:var(--night)">🏠</div>
+        <div class="stop-card night-card">
+          <div class="card-accent" style="background:linear-gradient(90deg,var(--night),var(--green))"></div>
+          <div class="card-body">
+            <span class="card-icon">🌙</span>
+            <h3 class="card-title">Homeward Bound — Back to Quezon City</h3>
+            <p class="card-desc">Begin the drive back to Metro Manila. From Baguio, take <strong>Marcos Highway</strong> (recommended — avoids PMA area) down to Pangasinan, then back through TPLEX and NLEX toward Quezon City. The drive is roughly 6–7 hours depending on traffic. Expect NLEX to be lighter late evening.</p>
+            <div class="card-tips" style="border-left-color:var(--night)">
+              <strong style="color:var(--night)">💡 Drive Home Tips</strong>
+              Use Waze or Google Maps for live traffic updates. Take driver breaks every 2 hours. TPLEX rest areas have good pit-stop facilities. Avoid Kennon Road at night — it can be foggy and winding. Enjoy your croissants on the road!
+            </div>
+            <a class="maps-link" style="color:var(--night);background:#f5f5f5"
+               href="https://www.google.com/maps/dir/Baguio+City/Commonwealth+Ave+Quezon+City" target="_blank">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              Baguio → QC Route
+            </a>
+          </div>
+        </div>
+      </div>
 
-<!-- PACKING -->
-<section class="packing-section" id="pack">
-  <div class="container">
-    <div class="section-header" style="margin-bottom:0;">
-      <div class="day-badge" style="color:rgba(255,255,255,0.08); font-size:4rem;">🎒</div>
-      <div class="section-title-block">
-        <p class="section-kicker" style="color:var(--sunset);">Don't Forget</p>
-        <h2 class="section-title" style="color:#fff;">Packing Essentials</h2>
-        <p class="section-subtitle" style="color:rgba(255,255,255,0.4);">Everything you need for a perfect 2-day trip</p>
-      </div>
-    </div>
-    <div class="packing-grid">
-      <div class="pack-card">
-        <div class="pack-icon">🏖</div>
-        <div class="pack-title">Beach Gear</div>
-        <ul class="pack-items">
-          <li>Swimwear (at least 2 sets)</li>
-          <li>Reef-safe sunscreen SPF 50+</li>
-          <li>Towels & rash guard</li>
-          <li>Waterproof dry bag</li>
-          <li>Water shoes / sandals</li>
-          <li>Sunglasses & hat</li>
-        </ul>
-      </div>
-      <div class="pack-card">
-        <div class="pack-icon">🧥</div>
-        <div class="pack-title">Baguio Clothing</div>
-        <ul class="pack-items">
-          <li>Light jacket or hoodie</li>
-          <li>Long pants or jeans</li>
-          <li>Comfortable walking shoes</li>
-          <li>Layering tops</li>
-          <li>Modest attire for Manaoag Church</li>
-        </ul>
-      </div>
-      <div class="pack-card">
-        <div class="pack-icon">🍱</div>
-        <div class="pack-title">Food & Drinks</div>
-        <ul class="pack-items">
-          <li>Baon (packed breakfast for Manaoag)</li>
-          <li>Water bottles (reusable!)</li>
-          <li>Road trip snacks & candy</li>
-          <li>Budget for meals & activities</li>
-          <li>Extra cash for beach/surfing</li>
-        </ul>
-      </div>
-      <div class="pack-card">
-        <div class="pack-icon">📱</div>
-        <div class="pack-title">Tech & Essentials</div>
-        <ul class="pack-items">
-          <li>Power banks (fully charged)</li>
-          <li>Phone charger & car charger</li>
-          <li>Camera or GoPro</li>
-          <li>Offline Google Maps saved</li>
-          <li>EasyTrip / Autosweep RFID</li>
-          <li>Spotify playlist downloaded</li>
-        </ul>
-      </div>
-      <div class="pack-card">
-        <div class="pack-icon">💊</div>
-        <div class="pack-title">Health & Safety</div>
-        <ul class="pack-items">
-          <li>Motion sickness meds (Naguillian Rd)</li>
-          <li>Basic first aid kit</li>
-          <li>Personal medications</li>
-          <li>Insect repellent</li>
-          <li>Small umbrella / rain cover</li>
-        </ul>
-      </div>
-      <div class="pack-card">
-        <div class="pack-icon">🎁</div>
-        <div class="pack-title">Pasalubong Budget</div>
-        <ul class="pack-items">
-          <li>Grape wine from Gapuz Farm</li>
-          <li>Ube jam & strawberry jam (Baguio)</li>
-          <li>Baguio longganisa</li>
-          <li>Peanut brittle & Good Shepherd products</li>
-          <li>Native finds from Tan-aw sa Alang</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+    </div><!-- /timeline day2 -->
+  </div><!-- /day2 -->
 
-<footer>
-  <p>Made with ❤️ for the <span>La Union & Baguio Road Trip</span> · May 15–16, 2026</p>
-  <p style="margin-top:6px;">Drive safe, eat well, and make unforgettable memories 🌊⛰️</p>
-</footer>
+  <footer>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:white;margin-bottom:10px">Have an amazing trip! 🌊🏔️</p>
+    <p><strong>La Union &amp; Baguio Road Trip</strong> · May 15–16, 2026</p>
+    <p style="margin-top:8px">Balingasa QC → Manaoag → Agoo → San Juan LU → San Fernando LU → Bauang → Tuba → Baguio → Home</p>
+  </footer>
+
+</div><!-- /page -->
 
 <script>
-  // Animate stops on scroll
+  // Intersection Observer for scroll animations
   const stops = document.querySelectorAll('.stop');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.animationDelay = (i * 0.05) + 's';
-        entry.target.classList.add('visible');
+        entry.target.style.animationPlayState = 'running';
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
-  stops.forEach(s => observer.observe(s));
 
-  // Nav active state
-  const sections = document.querySelectorAll('.day-section, .packing-section');
-  const navLinks = document.querySelectorAll('.day-nav a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(sec => {
-      const top = sec.offsetTop - 80;
-      if (window.scrollY >= top) current = sec.id;
-    });
-    navLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
+  stops.forEach(stop => {
+    stop.style.animationPlayState = 'paused';
+    observer.observe(stop);
   });
 </script>
+
 </body>
 </html>
